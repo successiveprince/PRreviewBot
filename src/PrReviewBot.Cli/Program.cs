@@ -16,7 +16,8 @@ EnvFile.Load();
 // (e.g. Azure OpenAI, Groq, a local Ollama server) - nothing else in the app needs to change.
 const string ProviderBaseAddress = "https://openrouter.ai/api/v1/";
 const string ProviderApiKeyEnvVar = "OPENROUTER_API_KEY";
-const string DefaultModel = "meta-llama/llama-3.3-70b-instruct:free";
+// meta-llama/llama-3.3-70b-instruct:free was discontinued by OpenRouter (404) - keep this pointed at a currently-live free model.
+const string DefaultModel = "nvidia/nemotron-3-ultra-550b-a55b:free";
 // --- end provider-specific configuration ---
 
 var prNumber = ParseIntArgument(args, "--pr");
