@@ -38,7 +38,7 @@ Actions secrets in CI) always win. It's also where you can override `OPENROUTER_
 
 ## Usage
 
-Add a workflow like this to your repo (see [.github/workflows/example-usage.yml](.github/workflows/example-usage.yml) for the full version):
+Add a workflow like this to your repo (see [.github/workflows/pr-review.yml](.github/workflows/pr-review.yml) for the full version):
 
 ```yaml
 name: PR Review Bot

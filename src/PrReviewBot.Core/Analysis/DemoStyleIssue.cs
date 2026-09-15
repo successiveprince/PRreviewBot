@@ -5,7 +5,8 @@ public class DemoStyleIssue
 {
     public int Value;
 
-    public int AddOne(int x) {
-        return x+1;
+    public int AddOne(int x)
+    {
+        return x + 1;
     }
 }
