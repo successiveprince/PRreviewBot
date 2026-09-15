@@ -1,0 +1,32 @@
+name: "PrReviewBot"
+description: "AI-powered pull request reviewer: runs Roslyn + StyleCop.Analyzers on the changed files and posts readable inline review comments using a free LLM via OpenRouter."
+author: "PrReviewBot"
+
+inputs:
+  github-token:
+    description: "Token used to read the PR diff and post the review (usually secrets.GITHUB_TOKEN)."
+    required: true
+  openrouter-key:
+    description: "API key for OpenRouter, used to turn static-analysis findings into readable review comments."
+    required: true
+  openrouter-model:
+    description: "OpenRouter model ID to use for generating review comments. Defaults to whatever PrReviewBot.Cli's own DefaultModel constant is set to if left unset."
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: "8.0.x"
+
+    - name: Run PrReviewBot
+      shell: bash
+      # The action's own bundled source (not the consumer's checkout) lives at github.action_path.
+      working-directory: ${{ github.action_path }}
+      run: dotnet run --project src/PrReviewBot.Cli -- --pr ${{ github.event.pull_request.number }}
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        OPENROUTER_API_KEY: ${{ inputs.openrouter-key }}
+        OPENROUTER_MODEL: ${{ inputs.openrouter-model }}

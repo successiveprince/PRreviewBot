@@ -1,0 +1,17 @@
+root = true
+
+[*.cs]
+# SA1633: file header requirement - not used in this project.
+dotnet_diagnostic.SA1633.severity = none
+# SA0001: XML comment analysis disabled notice - noisy since docs aren't mandatory here.
+dotnet_diagnostic.SA0001.severity = none
+# SA1313: flags PascalCase positional record parameters (e.g. `record Foo(string Bar)`) as a
+# false positive - StyleCop.Analyzers 1.1.118 predates full understanding of C# 9 records.
+dotnet_diagnostic.SA1313.severity = none
+# SA1000: conflicts with the editor's default formatting of target-typed `new(...)` (no space),
+# which keeps getting reapplied on save/format - not worth fighting.
+dotnet_diagnostic.SA1000.severity = none
+# SA1011: misparses nullable array types like `TimeSpan[]?` as needing a space before `?` -
+# StyleCop.Analyzers 1.1.118 predates full understanding of nullable reference type annotations.
+dotnet_diagnostic.SA1011.severity = none
+
