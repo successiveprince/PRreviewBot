@@ -1,0 +1,32 @@
+name: PR Review Bot (example usage)
+
+# NOTE: this workflow only works safely for PRs from branches within this same repo. If the
+# repo accepts PRs from forks, use `pull_request_target` instead - see the README's security
+# caveat about checking out the base branch's workflow file before doing so.
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+concurrency:
+  group: pr-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    name: Review PR
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run PrReviewBot
+        uses: ./
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          openrouter-key: ${{ secrets.OPENROUTER_API_KEY }}
+          openrouter-model: ${{ vars.OPENROUTER_MODEL }}
