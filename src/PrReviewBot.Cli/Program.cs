@@ -16,8 +16,9 @@ EnvFile.Load();
 // (e.g. Azure OpenAI, Groq, a local Ollama server) - nothing else in the app needs to change.
 const string ProviderBaseAddress = "https://openrouter.ai/api/v1/";
 const string ProviderApiKeyEnvVar = "OPENROUTER_API_KEY";
-// meta-llama/llama-3.3-70b-instruct:free was discontinued by OpenRouter (404) - keep this pointed at a currently-live free model.
-const string DefaultModel = "nvidia/nemotron-3-ultra-550b-a55b:free";
+// meta-llama/llama-3.3-70b-instruct:free was discontinued by OpenRouter (404). Nemotron 3 Ultra's
+// 550B MoE is free but too slow for CI; this is a smaller, faster free coding-focused model.
+const string DefaultModel = "cohere/north-mini-code:free";
 // --- end provider-specific configuration ---
 
 var prNumber = ParseIntArgument(args, "--pr");
@@ -36,7 +37,7 @@ services.AddHttpClient();
 services.AddHttpClient("ChatCompletion", client =>
 {
     client.BaseAddress = new Uri(ProviderBaseAddress);
-    client.Timeout = TimeSpan.FromSeconds(60);
+    client.Timeout = TimeSpan.FromSeconds(120);
 
     var apiKey = Environment.GetEnvironmentVariable(ProviderApiKeyEnvVar);
     if (!string.IsNullOrWhiteSpace(apiKey))
